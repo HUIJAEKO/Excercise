@@ -1,0 +1,28 @@
+server:
+  port: 8081
+  
+# database 연동 설정
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    각자 PC에 만들어놓은 Database이름을 써야 합니다.
+    url: jdbc:mysql://localhost:3306/excercise?serverTimezone=Asia/Seoul
+#    mysql에 생성한 사용자 계정 정보를 써야 합니다.
+    username: cos
+    password: cos1234
+  thymeleaf:
+     prefix : classpath:templates/
+     suffix : .html
+     cache : false
+
+  # spring data jpa 설정
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>메인 페이지</title>
+<link rel="stylesheet" href="css/mainstyle.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+	<header class="header">
+		<div class="user_actions">
+			<span th:text="${username} + '님, 환영합니다!'">사용자님, 환영합니다!</span>
+			<button onclick="location.href='/logout'">로그아웃</button>
+			<button onclick="location.href='/mypage'">마이페이지</button>
+		</div>
+	</header>
+	<div class="main-content">
+		<aside class="sidebar">
+			<div class="region">
+				<h3>서울시</h3>
+				<ul>
+					<li><a href="#">노원구</a></li>
+					<li><a href="#">강남구</a></li>
+					<li><a href="#">서초구</a></li>
+					<li><a href="#">송파구</a></li>
+					<li><a href="#">영등포구</a></li>
+					<li><a href="#">구로구</a></li>
+					<li><a href="#">도봉구</a></li>
+					<li><a href="#">은평구</a></li>
+				</ul>
+				<h3>경기도</h3>
+				<ul>
+					<li><a href="#">수원시</a></li>
+					<li><a href="#">성남시</a></li>
+					<li><a href="#">용인시</a></li>
+					<li><a href="#">파주시</a></li>
+					<li><a href="#">평택시</a></li>
+					<li><a href="#">의정부시</a></li>
+					<li><a href="#">동두천시</a></li>
+				</ul>
+			</div>
+		</aside>
+		<section class="content">
+			<div class="search">
+				<input type="text" placeholder="검색...">
+				<button>검색</button>
+			</div>
+			<div class="blog-posts">
+				<h3>최신글</h3>
+				<ul>
+					<li th:each="post : ${posts}" th:text="${post.title}">블로그 포스트
+						제목</li>
+				</ul>
+				<div class="more-link">
+					<a href="blog.html">더보기</a>
+				</div>
+			</div>
+		</section>
+	</div>
+	<footer>
+		<p>&copy; 2024 운동메이트 만들기</p>
+	</footer>
+	<script src="js/main.js"></script>
+</body>
+</html>
