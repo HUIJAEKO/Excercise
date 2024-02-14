@@ -1,6 +1,6 @@
 # :weight_lifting:운동메이트 만들기 프로젝트:weight_lifting:
 
-## :point_right:기술스택
+## :hammer_and_wrench:기술스택
 
 **백엔드**: java, spring boot, mysql
 
