@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <title>회원가입 페이지</title>
-<link rel="stylesheet" href="/css/signupstyle.css"
-	th:href="@{/css/signupstyle.css}">
+<link rel="stylesheet"  th:href="@{/css/signup.css}">
 <!-- 스타일시트 경로는 예시입니다 -->
 <script th:src="@{/js/dynamicRegions.js}" defer></script>
 <!-- 지역 데이터 동적 로딩을 위한 자바스크립트, 실제 구현 필요 -->
@@ -15,7 +14,7 @@
 
 	<div class="container">
 		<h2>회원가입</h2>
-		<form th:action="@{/signup}" th:object="${userDTO}" method="post">
+		<form th:action="@{/user/signup}" th:object="${userDTO}" method="post">
 			<div>
 				<label for="name">이름</label> <input type="text" id="name"
 					th:field="*{name}" required maxlength='5' placeholder="홍길동">

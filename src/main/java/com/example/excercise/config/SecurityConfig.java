@@ -1,18 +1,28 @@
 package com.example.excercise.config;
 
+
 import org.springframework.context.annotation.Bean;
+
+
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import com.example.excercise.exception.CustomAuthenticationFailureHandler;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
 	
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -26,25 +36,38 @@ public class SecurityConfig {
 		
 		http
 						.authorizeHttpRequests((auth)->auth
-										.requestMatchers("/","/login","/agree","/signup","/user/usernameCheck","/main").permitAll()
+										.requestMatchers("/","/user/login","/user/agree","/user/signup","/user/usernameCheck","/user/main").permitAll()
 										.requestMatchers("/css/**", "/js/**").permitAll()
 										.anyRequest().authenticated()
 						);
 		
 		http
-						.formLogin((auth)->auth.loginPage("/login")
-										.loginProcessingUrl("/login")
-										.defaultSuccessUrl("/main")
-										.failureHandler(new CustomAuthenticationFailureHandler())
-										.permitAll()
+						.formLogin((auth)->auth.loginPage("/user/login")
+							    	.loginProcessingUrl("/user/login")
+							    	.defaultSuccessUrl("/user/main", true)
+							    	.failureHandler(new CustomAuthenticationFailureHandler())
+							    	.permitAll()
 						)
 						
 						.logout((logout) -> logout
-				                .logoutUrl("/logout") // 로그아웃 처리 URL 설정
-				                .logoutSuccessUrl("/login") // 로그아웃 성공 시 리다이렉션될 URL
-				                .invalidateHttpSession(true) // 세션 무효화
-				                .clearAuthentication(true) // 인증 정보 클리어
-				                .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
+				                .logoutUrl("/user/logout") 
+				                .logoutSuccessUrl("/user/login") 
+				                .addLogoutHandler((LogoutHandler) new LogoutHandler() {
+									@Override
+									public void logout(HttpServletRequest request, HttpServletResponse response,
+											Authentication authentication) {
+													String cookieName = "JSESSIONID";
+													Cookie cookie = new Cookie(cookieName, null);
+													cookie.setPath("/");
+													cookie.setHttpOnly(true);
+													cookie.setMaxAge(0); 
+													response.addCookie(cookie);
+				                    }
+
+									
+				                })
+				                .invalidateHttpSession(true)
+				                .clearAuthentication(true)
 				                .permitAll()
 				            );
 		
