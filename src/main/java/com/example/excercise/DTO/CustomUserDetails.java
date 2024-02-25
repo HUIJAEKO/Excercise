@@ -12,6 +12,10 @@ public class CustomUserDetails implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
 	private UserEntity userEntity;
+	
+	 public Long getId() {
+			return userEntity.getId();
+		}
     
     public String getName() {
 		return userEntity.getName();

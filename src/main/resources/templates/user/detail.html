@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원 정보 페이지</title>
+<link rel="stylesheet" th:href="@{/css/detail.css}">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+
+	<div class="container">
+		<h2>회원 정보</h2>
+		<div>
+			<label for="name">이름</label> <input type="text" id="name"
+				th:value="${name}" disabled>
+		</div>
+		<div>
+			<label for="birthdate">생년월일</label> <input type="date" id="birthdate"
+				th:value="${birthdate}" disabled>
+		</div>
+		<div>
+			<label for="phone">전화번호</label> <input type="tel" id="phone"
+				th:value="${phone}" disabled>
+		</div>
+		
+
+		<div>
+			<label for="username">아이디</label> <input type="text" id="username"
+				th:value="${username}" disabled>
+		</div>
+	
+		<div class="action-buttons">
+			<button type="button" id="edit_profile"
+				th:onclick="'location.href=\'' + @{/user/edit} + '\''">정보
+				수정하기</button>
+			<button type="button" id="edit_password"
+				th:onclick="'location.href=\'' + @{/user/editPassword} + '\''">비밀번호 변경하기</button>
+			<button type="button" id="delete_account"
+				th:onclick="confirmDelete()">탈퇴하기</button>
+		</div>
+	</div>
+	<script th:src="@{/js/detail.js}"></script>
+</body>
+</html>

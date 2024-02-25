@@ -1,16 +1,25 @@
 package com.example.excercise.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.excercise.DTO.CustomUserDetails;
+import com.example.excercise.DTO.PasswordChangeRequest;
 import com.example.excercise.DTO.UserDTO;
 import com.example.excercise.service.UserService;
 
@@ -27,6 +36,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 
 	@GetMapping("/user/agree")
@@ -84,6 +94,73 @@ public class UserController {
 		return "user/login";
 	}
 	
+	@GetMapping("/user/mypage")
+	public String Detail(@AuthenticationPrincipal UserDetails currentUser, Model model) {
+		model.addAttribute("username", currentUser.getUsername());
+		model.addAttribute("birthdate", ((CustomUserDetails) currentUser).getBirthdate());
+		model.addAttribute("phone", ((CustomUserDetails) currentUser).getPhone());
+		model.addAttribute("name", ((CustomUserDetails) currentUser).getName());
+		model.addAttribute("password", currentUser.getPassword());
+		model.addAttribute("gender", ((CustomUserDetails) currentUser).getGender());
+		
+		return "user/detail";
+	}
+	
+	@DeleteMapping("/user/delete")
+	public String DeleteUser(@AuthenticationPrincipal CustomUserDetails user) {
+	userService.deleteUser(user.getId());		
+		SecurityContextHolder.clearContext();
+		return "user/login";
+	}
+	
+	@GetMapping("/user/edit")
+	public String editProfil(@AuthenticationPrincipal UserDetails currentUser2, Model model) {
+		model.addAttribute("username", currentUser2.getUsername());
+		model.addAttribute("birthdate", ((CustomUserDetails) currentUser2).getBirthdate());
+		model.addAttribute("phone", ((CustomUserDetails) currentUser2).getPhone());
+		model.addAttribute("name", ((CustomUserDetails) currentUser2).getName());
+		model.addAttribute("password", currentUser2.getPassword());
+		model.addAttribute("gender", ((CustomUserDetails) currentUser2).getGender());
+		
+		return "user/edit";
+	}
+	
+	
+	@GetMapping("/user/editPassword")
+	public String editPassword() {
+		return "user/editPassword";
+	}
+	
+	public UserController(UserService userService,  BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+	
+	
+    @PatchMapping("/user/editPassword")
+    public ResponseEntity<?> bCryptPasswordEncoder(@RequestBody PasswordChangeRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+        CustomUserDetails currentUser = (CustomUserDetails) userDetails;
+
+        // 현재 비밀번호 확인
+        if (!bCryptPasswordEncoder.matches(request.getCurrentPw(), currentUser.getPassword())) {
+            return ResponseEntity.badRequest().body(Map.of("error", "현재 비밀번호가 일치하지 않습니다."));
+        }
+
+        // 새 비밀번호와 새 비밀번호 확인 일치 검사
+        if (!request.getNewPw().equals(request.getNewPwConfirm())) {
+            return ResponseEntity.badRequest().body(Map.of("error", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다."));
+        }else {
+        	// 비밀번호 변경 로직 실행
+            userService.changePassword(currentUser.getUsername(), request.getNewPw());
+        }
+
+        return ResponseEntity.ok().body(Map.of("message", "비밀번호가 성공적으로 변경되었습니다."));
+    }
+	
+}
+
+
+	
 	
 //	 @PostMapping("/login")
 //	    public String login(@ModelAttribute UserDTO userDTO,HttpSession session, Model model) {
@@ -109,4 +186,4 @@ public class UserController {
 	 
 	 
 	 
-}
+
