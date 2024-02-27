@@ -12,7 +12,7 @@
 
 	<div class="container">
 		<h2>정보수정</h2>
-		<form th:action="@{/user/edit}" th:object="${userDTO}" method="put">
+		<form th:action="@{/user/edit}" th:object="${userDTO}" method="post" id="editProfil">
 			<div>
 				<label for="name">이름</label> <input type="text" id="name"
 					th:value="${name}" disabled required maxlength='5'>
@@ -31,7 +31,7 @@
 			</div>
 			<div>
 				<label for="region">지역</label> <select id="region"
-					th:field="*{region}" required>
+					required>
 					<option value="">지역 선택</option>
 					<option value="seoul">서울특별시</option>
 					<option value="gyeonggi">경기도</option>
@@ -39,7 +39,7 @@
 			</div>
 			<div>
 				<label for="subregion">시/구</label> <select id="subregion"
-					th:field="*{subregion}" required>
+					required>
 					<option value="">먼저 지역을 선택해주세요</option>
 				</select>
 			</div>
@@ -49,7 +49,7 @@
 					<option value="female" th:selected="${gender == 'female'}">여성</option>
 				</select>
 			</div>
-			<button id="editProfil" type="submit" onclick="editProfil()">정보
+			<button id="editProfilButton" type="submit" >정보
 				수정하기</button>
 		</form>
 	</div>

@@ -2,6 +2,8 @@ package com.example.excercise.controller;
 
 import java.util.Map;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -11,19 +13,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.excercise.DTO.CustomUserDetails;
+import com.example.excercise.DTO.EditDTO;
 import com.example.excercise.DTO.PasswordChangeRequest;
 import com.example.excercise.DTO.UserDTO;
 import com.example.excercise.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,13 +50,21 @@ public class UserController {
 	
 	@GetMapping("/user/signup")
 	public String SignUpForm(Model model) {
-	    model.addAttribute("userDTO", new UserDTO()); 
+		model.addAttribute("userDTO", new UserDTO()); 
 	    return "user/signup";
 	}
 	
 	@PostMapping("/user/signup")
-	public String MakeSignUp(@ModelAttribute UserDTO userDTO) {
-	    userService.save(userDTO);
+	public String MakeSignUp(@Valid UserDTO userDTO, Errors errors, Model model) {
+		 if(errors.hasErrors()) {
+			 model.addAttribute("userDTO", userDTO);
+			 Map<String, String> validatorResult = userService.validateHandling(errors);
+			 for(String key : validatorResult.keySet()) {
+				 model.addAttribute(key, validatorResult.get(key));
+			 }
+			 return "user/signup";
+		 }
+		userService.save(userDTO);
 	    return "user/login";
 	}
 	
@@ -94,7 +106,7 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@GetMapping("/user/mypage")
+	@GetMapping("/user/detail")
 	public String Detail(@AuthenticationPrincipal UserDetails currentUser, Model model) {
 		model.addAttribute("username", currentUser.getUsername());
 		model.addAttribute("birthdate", ((CustomUserDetails) currentUser).getBirthdate());
@@ -112,19 +124,6 @@ public class UserController {
 		SecurityContextHolder.clearContext();
 		return "user/login";
 	}
-	
-	@GetMapping("/user/edit")
-	public String editProfil(@AuthenticationPrincipal UserDetails currentUser2, Model model) {
-		model.addAttribute("username", currentUser2.getUsername());
-		model.addAttribute("birthdate", ((CustomUserDetails) currentUser2).getBirthdate());
-		model.addAttribute("phone", ((CustomUserDetails) currentUser2).getPhone());
-		model.addAttribute("name", ((CustomUserDetails) currentUser2).getName());
-		model.addAttribute("password", currentUser2.getPassword());
-		model.addAttribute("gender", ((CustomUserDetails) currentUser2).getGender());
-		
-		return "user/edit";
-	}
-	
 	
 	@GetMapping("/user/editPassword")
 	public String editPassword() {
@@ -156,7 +155,24 @@ public class UserController {
 
         return ResponseEntity.ok().body(Map.of("message", "비밀번호가 성공적으로 변경되었습니다."));
     }
+    
+    @GetMapping("/user/edit")
+	public String edit(@AuthenticationPrincipal UserDetails currentUser2, Model model) {
+		model.addAttribute("username", currentUser2.getUsername());
+		model.addAttribute("birthdate", ((CustomUserDetails) currentUser2).getBirthdate());
+		model.addAttribute("phone", ((CustomUserDetails) currentUser2).getPhone());
+		model.addAttribute("name", ((CustomUserDetails) currentUser2).getName());
+		model.addAttribute("gender", ((CustomUserDetails) currentUser2).getGender());
+		
+		return "user/edit";
+	}
 	
+    @PatchMapping("/user/edit")
+    public  String editProfil(@RequestBody EditDTO editDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    	CustomUserDetails currentUser = (CustomUserDetails) userDetails;
+	    userService.saveEdit(currentUser.getUsername(), editDTO.getRegion(), editDTO.getSubregion(), editDTO.getPhone());
+	    return "user/detail";
+    }  
 }
 
 

@@ -22,10 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-function signup(){
-	alert("회원가입이 완료되었습니다.");
-	window.location.href="/user/login"
-}
+
 
 const usernameDuplicate = () =>{
 	const dupleName = document.getElementById("username").value;
@@ -40,12 +37,14 @@ const usernameDuplicate = () =>{
 		},
 		success: function(result){
 			if(result =="ok"){
-				checkResult.innerHTML="사용가능합니다";
+				checkResult.innerHTML="존재하지 않는 아이디입니다";
 				checkResult.style.color="green";
+				checkResult.style.fontSize="0.8em";
 				signupButton.disabled = false;
 			}else{
 				checkResult.innerHTML="이미 존재하는 아이디입니다";
 				checkResult.style.color="red";
+				checkResult.style.fontSize="0.8em";
 				signupButton.disabled = true;
 			}
 		},

@@ -63,3 +63,8 @@ button[type="submit"]:hover, #check_id:hover {
 	/* Hover effects for both buttons */
 	background-color: #45a049;
 }
+
+.error {
+    color: red;
+    font-size: 0.8em;
+}
