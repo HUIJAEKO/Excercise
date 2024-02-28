@@ -1,5 +1,6 @@
 package com.example.excercise.DTO;
 
+//비밀번호 변경 DTO
 public class PasswordChangeRequest {
 	private String currentPw;
 	private String newPw;

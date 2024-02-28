@@ -42,22 +42,25 @@ public class UserController {
 	private UserService userService;
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-
+	//약관동의 페이지 이동
 	@GetMapping("/user/agree")
 	public String Agree() {
 		return "user/agree";
 	}
 	
+	//회원가입 페이지 이동
 	@GetMapping("/user/signup")
 	public String SignUpForm(Model model) {
 		model.addAttribute("userDTO", new UserDTO()); 
 	    return "user/signup";
 	}
 	
+	//회원가입
 	@PostMapping("/user/signup")
 	public String MakeSignUp(@Valid UserDTO userDTO, Errors errors, Model model) {
 		 if(errors.hasErrors()) {
 			 model.addAttribute("userDTO", userDTO);
+			 //오류를 Map 형식으로 저장
 			 Map<String, String> validatorResult = userService.validateHandling(errors);
 			 for(String key : validatorResult.keySet()) {
 				 model.addAttribute(key, validatorResult.get(key));
@@ -68,14 +71,11 @@ public class UserController {
 	    return "user/login";
 	}
 	
-//	@GetMapping("/login")
-//	public String SignUpComplete() {
-//		return "login";
-//	}
-	
+	//로그인 성공 시 메인화면 이동
 	@GetMapping("/user/main")
 	public String LoginSuccess(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//authentication을 통해 정보 가져오기
 		Object principal = authentication.getPrincipal();
 		if(principal instanceof CustomUserDetails) {
 			CustomUserDetails userDetails = (CustomUserDetails) principal;
@@ -84,16 +84,18 @@ public class UserController {
 		return "user/main";
 	}
 	
+	//이메일 중복체크
 	@PostMapping("/user/usernameCheck")
 	public @ResponseBody String idCheck(@RequestParam(name = "username") String username) {
 		String checkResult = userService.idcheck(username);
 		return checkResult;
 	}
 	
-	
+	//로그인 화면 이동
 	@GetMapping("/user/login")
 	public String login(@RequestParam(value = "error", required = false) Boolean error,
 									HttpSession session, Model model) {
+		//로그인 실패시
 		if(Boolean.TRUE.equals(error)) {
 			String errorCode = (String) session.getAttribute("loginMessage");
 			String errorMessage = switch (errorCode) {
@@ -101,11 +103,11 @@ public class UserController {
 				default -> "알 수 없는 오류가 발생했습니다. 관리자에게 문의해주세요";
 			};
 			model.addAttribute("loginMessage", errorMessage);
-		}
-		
+		}		
 		return "user/login";
 	}
 	
+	//마이페이지 이동
 	@GetMapping("/user/detail")
 	public String Detail(@AuthenticationPrincipal UserDetails currentUser, Model model) {
 		model.addAttribute("username", currentUser.getUsername());
@@ -118,6 +120,7 @@ public class UserController {
 		return "user/detail";
 	}
 	
+	//회원 탈퇴하기
 	@DeleteMapping("/user/delete")
 	public String DeleteUser(@AuthenticationPrincipal CustomUserDetails user) {
 	userService.deleteUser(user.getId());		
@@ -125,17 +128,19 @@ public class UserController {
 		return "user/login";
 	}
 	
+	//비밀번호 변경페이지 이동
 	@GetMapping("/user/editPassword")
 	public String editPassword() {
 		return "user/editPassword";
 	}
 	
+	//생성자
 	public UserController(UserService userService,  BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 	
-	
+	//비밀번호 변경하기
     @PatchMapping("/user/editPassword")
     public ResponseEntity<?> bCryptPasswordEncoder(@RequestBody PasswordChangeRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         CustomUserDetails currentUser = (CustomUserDetails) userDetails;
@@ -156,6 +161,7 @@ public class UserController {
         return ResponseEntity.ok().body(Map.of("message", "비밀번호가 성공적으로 변경되었습니다."));
     }
     
+    //회원정보 수정페이지 이동
     @GetMapping("/user/edit")
 	public String edit(@AuthenticationPrincipal UserDetails currentUser2, Model model) {
 		model.addAttribute("username", currentUser2.getUsername());
@@ -167,6 +173,7 @@ public class UserController {
 		return "user/edit";
 	}
 	
+    //회원정보 수정
     @PatchMapping("/user/edit")
     public  String editProfil(@RequestBody EditDTO editDTO, @AuthenticationPrincipal UserDetails userDetails) {
     	CustomUserDetails currentUser = (CustomUserDetails) userDetails;

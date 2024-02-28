@@ -120,7 +120,7 @@ public class UserEntity {
 	}
 
 	
-
+	//userDTO를 userEntity로 전환
 	public static UserEntity toUserEntity(UserDTO userDTO) {
 		UserEntity userEntity = new UserEntity();
 		userEntity.setId(userDTO.getId());

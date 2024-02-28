@@ -17,6 +17,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
        
     	String errorCode = "unknownError";
+    	//BadCredentialsException이 뜨면?
     	if(exception instanceof BadCredentialsException){
     		 errorCode = "badCredentials";
     	}

@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+//사용자 DTO
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
@@ -96,6 +97,7 @@ public class UserDTO {
 		this.gender = gender;
 	}
 	
+	//userEntity를  userDTO로 변경
 	public static UserDTO toUserDTO(UserEntity userEntity) {
 	    UserDTO userDTO = new UserDTO();
 	    userDTO.setId(userEntity.getId());

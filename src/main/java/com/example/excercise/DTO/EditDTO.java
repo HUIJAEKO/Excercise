@@ -1,6 +1,6 @@
 package com.example.excercise.DTO;
 
-
+//회원정보 수정 DTO
 public class EditDTO {
 		private String region;
 		private String subregion;

@@ -17,28 +17,28 @@
 			<div>
 				<label for="name">이름</label> <input type="text" id="name"
 					th:field="*{name}" maxlength='5' placeholder="홍길동">
-				<span th:if="${valid_name}" th:text="${valid_name}" class="error"></span>
+				<span th:if="${name_Error}" th:text="${name_Error}" class="error"></span>
 			</div>
 			<div>
 				<label for="birthdate">생년월일</label> <input type="date"
 					id="birthdate" th:field="*{birthdate}" >
-				<span th:if="${valid_birthdate}" th:text="${valid_birthdate}" class="error"></span>	
+				<span th:if="${birthdate_Error}" th:text="${birthdate_Error}" class="error"></span>	
 			</div>
 			<div>
 				<label for="phone">전화번호</label> <input type="tel" id="phone"
 					th:field="*{phone}"  maxlength='11'
-					placeholder="01012345678"> <span th:if="${valid_phone}"
-					th:text="${valid_phone}" class="error"></span>
+					placeholder="01012345678"> <span th:if="${phone_Error}"
+					th:text="${phone_Error}" class="error"></span>
 			</div>
 			<div>
 				<label for="region">지역</label> <select id="region"
 					th:field="*{region}" >
-					<option value="">지역 선택</option>
+					<option value="" selected>지역 선택</option>
 					<option value="seoul">서울특별시</option>
 					<option value="gyeonggi">경기도</option>
 					<!-- 추가 지역 선택지 -->
 				</select>
-				<span th:if="${valid_region}" th:text="${valid_region}" class="error"></span>
+				<span th:if="${region_Error}" th:text="${region_Error}" class="error"></span>
 			</div>
 			<div>
 				<label for="subregion">시/구</label> <select id="subregion"
@@ -46,20 +46,19 @@
 					<option value="">먼저 지역을 선택해주세요</option>
 					<!-- 동적으로 변경될 내용 -->
 				</select>
-				<span th:if="${valid_subregion}" th:text="${valid_subregion}" class="error"></span>
+				<span th:if="${subregion_Error}" th:text="${subregion_Error}" class="error"></span>
 			</div>
 			<div>
 				<label for="username">아이디</label> <input type="text" id="username"
 					th:field="*{username}"  placeholder="xxxxx@naver.com"
 					onblur="usernameDuplicate()"> <span
-					th:if="${valid_username}" th:text="${valid_username}" class="error"></span><br>
+					th:if="${username_Error}" th:text="${username_Error}" class="error"></span><br>
 				<span id=username_duplicate></span>
 			</div>
 			<div>
 				<label for="password">비밀번호</label> <input type="password"
 					id="password" th:field="*{password}" > <span
-					th:if="${valid_password}" th:text="${valid_password}" class="error"></span>
-
+					th:if="${password_Error}" th:text="${password_Error}" class="error"></span>
 			</div>
 			<div>
 				<label for="gender">성별</label> <select id="gender"
@@ -68,7 +67,7 @@
 					<option value="male">남성</option>
 					<option value="female">여성</option>
 				</select>
-				<span th:if="${valid_gender}" th:text="${valid_gender}" class="error"></span>
+				<span th:if="${gender_Error}" th:text="${gender_Error}" class="error"></span>
 			</div>
 			<button id="signupButton" type="submit" onclick="signup()">회원가입</button>
 		</form>
