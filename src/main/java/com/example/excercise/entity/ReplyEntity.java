@@ -16,7 +16,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "reply_table")
 public class ReplyEntity {
@@ -37,12 +41,70 @@ public class ReplyEntity {
 		private PostEntity postEntity;
 		
 		 @ManyToOne(fetch = FetchType.LAZY)
-		 @JoinColumn(name = "parentReplyId")
-		 private ReplyEntity ReplyEntity;
+		 @JoinColumn(name = "replyId")
+		 private ReplyEntity replyEntity;
 
 		 @OneToMany(mappedBy = "ReplyEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-		 private List<ReplyEntity> childReplies;
+		 private List<ReplyEntity> childReply;
 		
 		@CreationTimestamp
 		private Timestamp replyCreatedTime;
+
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public String getReplyContent() {
+			return replyContent;
+		}
+
+		public void setReplyContent(String replyContent) {
+			this.replyContent = replyContent;
+		}
+
+		public UserEntity getUserEntity() {
+			return userEntity;
+		}
+
+		public void setUserEntity(UserEntity userEntity) {
+			this.userEntity = userEntity;
+		}
+
+		public PostEntity getPostEntity() {
+			return postEntity;
+		}
+
+		public void setPostEntity(PostEntity postEntity) {
+			this.postEntity = postEntity;
+		}
+
+		public ReplyEntity getReplyEntity() {
+			return replyEntity;
+		}
+
+		public void setReplyEntity(ReplyEntity replyEntity) {
+			this.replyEntity = replyEntity;
+		}
+
+		public List<ReplyEntity> getChildReply() {
+			return childReply;
+		}
+
+		public void setChildReplies(List<ReplyEntity> childReply) {
+			this.childReply = childReply;
+		}
+
+		public Timestamp getReplyCreatedTime() {
+			return replyCreatedTime;
+		}
+
+		public void setReplyCreatedTime(Timestamp replyCreatedTime) {
+			this.replyCreatedTime = replyCreatedTime;
+		}
+		
+		
 }

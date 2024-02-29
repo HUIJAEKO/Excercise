@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>글쓰기 페이지</title>
+<link rel="stylesheet" th:href="@{/css/newPost.css}">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
-
+	<header class="header">
+		<div class="user_actions">
+			<button onclick="location.href='/user/logout'">로그아웃</button>
+			<button onclick="location.href='/user/detail'">마이페이지</button>
+		</div>
+	</header>
+	<div class="main-content" style="flex-direction: column;">
+		<div class="content" style="width: 80%; margin: 20px auto;">
+			<form action="/post/save" method="post">
+				<div class="form-group">
+					<label for="title">제목:</label> <input type="text" id="title"
+						name="title" placeholder="제목을 입력하세요" >
+				</div>
+				<div class="form-group">
+					<label for="region">지역 선택:</label> <select id="region"
+						name="region" >
+						<option value="" selected>지역 선택</option>
+						<option value="seoul">서울특별시</option>
+						<option value="gyeonggi">경기도</option>
+					</select>
+				</div>
+				<div>
+				<label for="subregion">시/구</label> <select id="subregion"
+					name ="subregion"  >
+					<option value="">먼저 지역을 선택해주세요</option>
+					<!-- 동적으로 변경될 내용 -->
+				</select>
+				<span th:if="${subregion_Error}" th:text="${subregion_Error}" class="error"></span>
+			</div>
+				<div class="form-group">
+					<label for="content">내용:</label>
+					<textarea id="content" name="content" rows="10"
+						placeholder="내용을 입력하세요" ></textarea>
+				</div>
+				<button type="submit" class="submit-button">글쓰기 완료</button>
+			</form>
+		</div>
+	</div>
+	<footer>
+		<p>&copy; 2024 운동메이트 만들기</p>
+	</footer>
+	<script th:src="@{/js/newPost.js}"></script>
 </body>
 </html>

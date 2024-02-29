@@ -52,6 +52,70 @@ public class PostEntity {
 	
 	@CreationTimestamp
 	private Timestamp postCreatedTime;
-	
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPostTitle() {
+		return postTitle;
+	}
+
+	public void setPostTitle(String postTitle) {
+		this.postTitle = postTitle;
+	}
+
+	public String getPostContent() {
+		return postContent;
+	}
+
+	public void setPostContent(String postContent) {
+		this.postContent = postContent;
+	}
+
+	public UserEntity getUserEntity() {
+		return userEntity;
+	}
+
+	public void setUserEntity(UserEntity userEntity) {
+		this.userEntity = userEntity;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public String getSubregion() {
+		return subregion;
+	}
+
+	public void setSubregion(String subregion) {
+		this.subregion = subregion;
+	}
+
+	public List<ReplyEntity> getReplyEntity() {
+		return replyEntity;
+	}
+
+	public void setReplyEntity(List<ReplyEntity> replyEntity) {
+		this.replyEntity = replyEntity;
+	}
+
+	public Timestamp getPostCreatedTime() {
+		return postCreatedTime;
+	}
+
+	public void setPostCreatedTime(Timestamp postCreatedTime) {
+		this.postCreatedTime = postCreatedTime;
+	}
+	
+	
 }

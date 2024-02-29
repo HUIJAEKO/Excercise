@@ -21,38 +21,3 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-
-
-const usernameDuplicate = () =>{
-	const dupleName = document.getElementById("username").value;
-	const checkResult = document.getElementById("username_duplicate");
-	const signupButton = document.getElementById("signupButton");	
-	$.ajax({
-		type: "post",
-		dataType:"text",
-		url: "/user/usernameCheck",
-		data: {
-			"username":dupleName
-		},
-		success: function(result){
-			if(result =="ok"){
-				checkResult.innerHTML="존재하지 않는 아이디입니다";
-				checkResult.style.color="green";
-				checkResult.style.fontSize="0.8em";
-				signupButton.disabled = false;
-			}else{
-				checkResult.innerHTML="이미 존재하는 아이디입니다";
-				checkResult.style.color="red";
-				checkResult.style.fontSize="0.8em";
-				signupButton.disabled = true;
-			}
-		},
-		
-		error: function(){
-			alert("ajax실패");
-		}
-	});
-}
-
-
