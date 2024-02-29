@@ -1,5 +1,5 @@
 package com.example.excercise.repository;
 
-public class BlogRepository {
+public class PostRepository {
 
 }

@@ -112,7 +112,7 @@ body, html {
 	margin-bottom: 20px; /* 검색창 아래 마진 추가 */
 }
 
-.search input, .search button {
+.search input, .search button, .search a{
 	padding: 10px; /* 기존의 패딩 설정 유지 */
 	border-radius: 5px; /* 기존의 둥근 모서리 설정 유지 */
 }
@@ -159,12 +159,12 @@ body, html {
 	margin-top: 20px;
 }
 
-.more-link a {
-	text-decoration: none;
+.more-link button {
 	background-color: #acb6e5;
 	color: white;
 	padding: 10px 20px;
 	border-radius: 5px;
+	border:none;
 	transition: background-color 0.3s;
 	display: inline-block; /* 블록 요소로 변경하여 너비 조정 가능하게 함 */
 	width: 70%; /* 가로 길이를 최대로 설정 */
