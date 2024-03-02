@@ -24,6 +24,7 @@ import com.example.excercise.DTO.CustomUserDetails;
 import com.example.excercise.DTO.EditDTO;
 import com.example.excercise.DTO.PasswordChangeRequest;
 import com.example.excercise.DTO.UserDTO;
+import com.example.excercise.service.PostService;
 import com.example.excercise.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -40,6 +41,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PostService postService;
+	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	//약관동의 페이지 이동
@@ -80,6 +84,7 @@ public class UserController {
 		if(principal instanceof CustomUserDetails) {
 			CustomUserDetails userDetails = (CustomUserDetails) principal;
 			model.addAttribute("username", userDetails.getName());
+			model.addAttribute("posts", postService.find5Post());
 		}
 		return "user/main";
 	}

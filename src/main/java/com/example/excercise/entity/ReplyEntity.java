@@ -33,18 +33,18 @@ public class ReplyEntity {
 		private String replyContent;
 		
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "userId")
+		@JoinColumn(name = "user_id")
 		private UserEntity userEntity;
 		
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "postId")
+		@JoinColumn(name = "post_id")
 		private PostEntity postEntity;
 		
 		 @ManyToOne(fetch = FetchType.LAZY)
-		 @JoinColumn(name = "replyId")
+		 @JoinColumn(name = "reply_id")
 		 private ReplyEntity replyEntity;
 
-		 @OneToMany(mappedBy = "ReplyEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+		 @OneToMany(mappedBy = "replyEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 		 private List<ReplyEntity> childReply;
 		
 		@CreationTimestamp

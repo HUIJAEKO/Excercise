@@ -1,6 +1,7 @@
 package com.example.excercise.entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,8 +38,8 @@ public class PostEntity {
 	@Column(nullable=false)
 	private String postContent;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="userId")
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JoinColumn(name="user_id")
 	private UserEntity userEntity;
 	
 	@Column(nullable=false)
@@ -48,7 +49,7 @@ public class PostEntity {
     private String subregion; 
 	
 	@OneToMany(mappedBy = "postEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private List<ReplyEntity> replyEntity;
+	private List<ReplyEntity> replyEntity = new ArrayList<>();
 	
 	@CreationTimestamp
 	private Timestamp postCreatedTime;
@@ -116,6 +117,5 @@ public class PostEntity {
 	public void setPostCreatedTime(Timestamp postCreatedTime) {
 		this.postCreatedTime = postCreatedTime;
 	}
-	
 	
 }

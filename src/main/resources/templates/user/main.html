@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>메인 페이지</title>
-<link rel="stylesheet"  th:href="@{/css/main.css}">
+<link rel="stylesheet" th:href="@{/css/main.css}">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
@@ -47,20 +47,35 @@
 				<button>검색</button>
 				<button onclick="location.href='/post/newPost'">글쓰기</button>
 			</div>
-			<div class="blog-posts">
-				<h3>최신글</h3>
-				<ul>
-					<li th:each="post : ${posts}" th:text="${post.title}">블로그 포스트
-						제목</li>
-				</ul>
-				<div class="more-link">
-					<button onclick="location.href='#'">더보기</button>
-				</div>
+			<div class="posts-container">
+				<h3>최신 글</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>제목</th>
+							<th>지역</th>
+							<th>하위지역</th>
+							<th>작성자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="post : ${posts}" th:id="'post-' + ${post.id}"
+							class="clickable-row" th:data-post-id="${post.id}">
+							<td th:text="${post.postTitle}">제목</td>
+							<td th:text="${post.region}">지역</td>
+							<td th:text="${post.subregion}">하위 지역</td>
+							<td th:text="${post.userEntity.name}">작성자</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="more-link">
+				<button onclick="location.href='#'">더보기</button>
 			</div>
 		</section>
-	</div>
-	<footer>
-		<p>&copy; 2024 운동메이트 만들기</p>
-	</footer>
+		<footer>
+			<p>&copy; 2024 운동메이트 만들기</p>
+		</footer>
+		<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

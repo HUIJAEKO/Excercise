@@ -16,14 +16,14 @@
 	</header>
 	<div class="main-content" style="flex-direction: column;">
 		<div class="content" style="width: 80%; margin: 20px auto;">
-			<form action="/post/save" method="post">
+			<form action="/post/newPost" method="post">
 				<div class="form-group">
 					<label for="title">제목:</label> <input type="text" id="title"
-						name="title" placeholder="제목을 입력하세요" >
+						name="postTitle" placeholder="제목을 입력하세요" required >
 				</div>
 				<div class="form-group">
 					<label for="region">지역 선택:</label> <select id="region"
-						name="region" >
+						name="region" required >
 						<option value="" selected>지역 선택</option>
 						<option value="seoul">서울특별시</option>
 						<option value="gyeonggi">경기도</option>
@@ -31,16 +31,16 @@
 				</div>
 				<div>
 				<label for="subregion">시/구</label> <select id="subregion"
-					name ="subregion"  >
+					name ="subregion"  required >
 					<option value="">먼저 지역을 선택해주세요</option>
 					<!-- 동적으로 변경될 내용 -->
 				</select>
 				<span th:if="${subregion_Error}" th:text="${subregion_Error}" class="error"></span>
 			</div>
 				<div class="form-group">
-					<label for="content">내용:</label>
-					<textarea id="content" name="content" rows="10"
-						placeholder="내용을 입력하세요" ></textarea>
+					<label for="postContent">내용:</label>
+					<textarea id="content" name="postContent" rows="10"
+						placeholder="내용을 입력하세요" required  ></textarea>
 				</div>
 				<button type="submit" class="submit-button">글쓰기 완료</button>
 			</form>
